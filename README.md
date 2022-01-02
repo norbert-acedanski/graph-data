@@ -13,8 +13,10 @@ Python 3.8.0
 
 # Getting started
 ### Requirements
-##### packages:
-- matplotlib (pip install matplotlib)
+
+All required packages in requirements.txt file.
+
+To install all required packages, type _pip install -r requirements.txt_ int the terminal.
 
 All required packages in requirements.txt file.
 
