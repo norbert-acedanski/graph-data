@@ -18,8 +18,6 @@ All required packages in requirements.txt file.
 
 To install all required packages, type _pip install -r requirements.txt_ int the terminal.
 
-All required packages in requirements.txt file.
-
 ### Working with graph-data:
 1. Copy files, that you want to graph, to the directory with a script.
 2. Run the script.
