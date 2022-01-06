@@ -127,7 +127,6 @@ if __name__ == '__main__':
     amountOfFilesWithGivenExtention = 0
     while amountOfFilesWithGivenExtention == 0:
         fileExtention = input('Specify extention of files to be included in the graph (e.g.: txt, json - without "."): ').lower()
-        fileExtention = "json"
         filesNames = [file for file in os.listdir() if file.endswith("." + fileExtention)]
         amountOfFilesWithGivenExtention = len(filesNames)
         if amountOfFilesWithGivenExtention == 0:
