@@ -16,7 +16,11 @@ Python 3.8.0
 
 All required packages in requirements.txt file.
 
-To install all required packages, type "_pip install -r requirements.txt_" in the terminal.
+To install all required packages, type:
+```console
+pip install -r requirements.txt
+```
+ in the terminal.
 
 ### Working with graph-data:
 1. Copy files, that you want to graph, to the directory with a script.
