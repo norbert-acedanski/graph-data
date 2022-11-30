@@ -5,6 +5,7 @@ import json
 import os
 import sys
 
+
 class GraphData():
     def __init__(self, files_names_to_graph):
         self.gaussian_type, self.uniform_type = "GAUSS", "UNIFORM"
@@ -25,9 +26,9 @@ class GraphData():
         for i in range(len(self.files_names)):
             f = open(self.files_names[i])
             self.data_list.append(json.load(f))
-            f.close
+            f.close()
 
-    def data_preperations(self):
+    def data_preparations(self):
         self.mean_vertical = round((self.max_value(self.data_list) + self.min_value(self.data_list))/2)
         for i in range(len(self.data_list)):
             self.x_values.append(list(range(1, len(self.data_list[i]) + 1)))
@@ -63,10 +64,12 @@ class GraphData():
         # Add values from files to plot
         for i in range(len(self.data_list)):
             plt.plot(self.x_values[i], self.data_list[i], label = self.data_names[i], marker="o")
-            plt.text(len(self.data_list[i]) + 1, self.data_list[i][len(self.data_list[i]) - 1], str(self.data_list[i][len(self.data_list[i]) - 1]))
+            plt.text(len(self.data_list[i]) + 1, self.data_list[i][len(self.data_list[i]) - 1],
+                     str(self.data_list[i][len(self.data_list[i]) - 1]))
         # Add mean line to plot
         for i in range(len(self.data_list)):
-            plt.plot([0, len(self.data_list[i])], [self.data_mean_values[i], self.data_mean_values[i]], label = self.data_names[i] + " mean value")
+            plt.plot([0, len(self.data_list[i])], [self.data_mean_values[i], self.data_mean_values[i]],
+                     label=self.data_names[i] + " mean value")
         # Add random values to plot
         for type in self.random_types:
             self.generate_random_measurement(type)
@@ -75,8 +78,11 @@ class GraphData():
                 string_to_print += self.data_names[i] + " - " + str(self.random_data[i]) + "; "
             print(string_to_print)
             for i in range(len(self.data_list)):
-                plt.plot(len(self.data_list[i]) + 5, self.random_data[i], label = "Random " + str(type.lower()) + " " + self.data_names[i], linestyle='dashed', marker= "*", markersize=5)
-                plt.text(len(self.data_list[i]) + 5, self.random_data[i], str(self.random_data[i]), horizontalalignment='left')
+                plt.plot(len(self.data_list[i]) + 5, self.random_data[i],
+                         label=f"Random {type.lower()} {self.data_names[i]}", linestyle='dashed',
+                         marker="*", markersize=5)
+                plt.text(len(self.data_list[i]) + 5, self.random_data[i], str(self.random_data[i]),
+                         horizontalalignment='left')
             self.random_data.clear()
         # Add mean values text to plot
         string_to_print = "Mean values: "
@@ -91,9 +97,13 @@ class GraphData():
         # Add min, max values to the plot
         for i in range(len(self.data_list)):
             if self.data_max_values[i][0] != len(self.data_list[i]) - 1:
-                plt.text(self.data_max_values[i][1] + 1, self.data_max_values[i][0], "Max - " + str(self.data_max_values[i][0]), verticalalignment="bottom", horizontalalignment="center")
+                plt.text(self.data_max_values[i][1] + 1, self.data_max_values[i][0],
+                         f"Max - {self.data_max_values[i][0]}",
+                         verticalalignment="bottom", horizontalalignment="center")
             if self.data_min_values[i][0] != len(self.data_list[i]) - 1:
-                plt.text(self.data_min_values[i][1] + 1, self.data_min_values[i][0] - 2, "Min - " + str(self.data_min_values[i][0]), verticalalignment="bottom", horizontalalignment="center")
+                plt.text(self.data_min_values[i][1] + 1, self.data_min_values[i][0] - 2,
+                         f"Min - {self.data_min_values[i][0]}",
+                         verticalalignment="bottom", horizontalalignment="center")
 
     def plot_all(self):
         plt.xlabel("x - samples")
@@ -110,32 +120,37 @@ class GraphData():
 
     def run(self):
         self.file_operations()
-        self.data_preperations()
+        self.data_preparations()
         self.prepare_histograms()
         self.prepare_values_graph()
         self.plot_all()
 
+
 def show_instruction():
     print("Program for graphing data read from selected files.")
-    print("Files to read are selected by writing their extensions in the terminal (If multiple file extensions will be used, they should be written as a ... (no idea for now))")
+    print("Files to read are selected by writing their extensions in the terminal "
+          "(If multiple file extensions will be used, they should be written as a ... (no idea for now))")
     print("For now, data can't be load with corresponding x values - only the measurements.")
-    print("Data will appear as histograms of the load data and a graph with a mean and standard deviation, one prediction (uniform and gauss) and min and max values for each data set.")
+    print("Data will appear as histograms of the load data and a graph with a mean and standard deviation, "
+          "one prediction (uniform and gauss) and min and max values for each data set.")
     print("y names of values are determined by names of the corresponding files.\n")
+
 
 if __name__ == '__main__':
     show_instruction()
-    amount_of_files_with_given_extention = 0
-    while amount_of_files_with_given_extention == 0:
-        file_extention = input('Specify extention of files to be included in the graph (e.g.: txt, json - without "."): ').lower()
-        files_names = [file for file in os.listdir() if file.endswith("." + file_extention)]
-        amount_of_files_with_given_extention = len(files_names)
-        if amount_of_files_with_given_extention == 0:
-            print("No ." + file_extention + " files found in directory: '" + str(os.path.abspath(os.getcwd())) + "'.")
-            print("Files found: '", end = "")
+    number_of_files_with_given_extension = 0
+    while number_of_files_with_given_extension == 0:
+        file_extension = input('Specify extention of files to be included in the graph '
+                               '(e.g.: txt, json - without "."): ').lower()
+        files_names = [file for file in os.listdir() if file.endswith("." + file_extension)]
+        number_of_files_with_given_extension = len(files_names)
+        if number_of_files_with_given_extension == 0:
+            print(f"No .{file_extension} files found in directory: '" + str(os.path.abspath(os.getcwd())) + "'.")
+            print("Files found: '", end="")
             files_to_print = "', '".join(os.listdir())
             print(files_to_print + "'\nTry again.")
             sys.exit()
         else:
-            print(str(amount_of_files_with_given_extention) + ' files with "' + file_extention + '" extention found.')
+            print(str(number_of_files_with_given_extension) + ' files with "' + file_extension + '" extension found.')
     measurements_data_graph = GraphData(files_names)
     measurements_data_graph.run()
